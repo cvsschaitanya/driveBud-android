@@ -41,6 +41,7 @@ public class StatsRecyclerViewAdapter extends RecyclerView.Adapter<StatsRecycler
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String title = stat_titles.get(position);
         holder.setData(title, stats_data.get(title));
+        holder.itemView.setId(4815+position);
     }
 
     @Override
@@ -56,12 +57,14 @@ public class StatsRecyclerViewAdapter extends RecyclerView.Adapter<StatsRecycler
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView titleView, valueView;
+        View itemView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             Log.d("TAG", "onChanged: ");
             titleView = itemView.findViewById(R.id.titleView);
             valueView = itemView.findViewById(R.id.valueView);
+            this.itemView = itemView;
         }
 
         public void setData(String title, Double value) {

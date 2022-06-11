@@ -1,12 +1,10 @@
 package com.example.drivebud.ui.stats;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.drivebud.repositories.StatsRepository;
+import com.example.drivebud.data.repositories.StatsRepository;
 
 import java.util.HashMap;
 

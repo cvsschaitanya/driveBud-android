@@ -4,16 +4,20 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.drivebud.data.repositories.HomeRepository;
+
 public class HomeViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    String range;
 
-    public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+    AquireListener aquireListener;
+
+    void aquireData(){
+        aquireListener.onStarted();
+
+        LiveData<String> rangeLiveData = HomeRepository.getInstance().aquireData();
+        aquireListener.onSuccess(rangeLiveData);
     }
 
-    public LiveData<String> getText() {
-        return mText;
-    }
+
 }

@@ -1,11 +1,13 @@
 package com.example.drivebud.ui.stats;
 
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,11 +22,15 @@ import com.example.drivebud.R;
 import com.example.drivebud.adapters.StatsRecyclerViewAdapter;
 import com.example.drivebud.databinding.FragmentStatsBinding;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class StatsFragment extends Fragment {
+public class StatsFragment extends Fragment implements View.OnClickListener {
 
     private FragmentStatsBinding binding;
+    private List<TextView> topButtons;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -47,11 +53,26 @@ public class StatsFragment extends Fragment {
         statsViewModel.getStats().observe(getViewLifecycleOwner(), new Observer<HashMap<String, Double>>() {
             @Override
             public void onChanged(HashMap<String, Double> stats_data) {
+                statsRecyclerViewAdapter.setStats(stats_data);
                 statsRecyclerViewAdapter.notifyDataSetChanged();
             }
         });
 
+        setTopButtons();
+
         return root;
+    }
+
+    private void setTopButtons() {
+        topButtons = new ArrayList<>();
+        topButtons.add(binding.dayButton);
+        topButtons.add(binding.weekButton);
+        topButtons.add(binding.monthButton);
+
+        for (TextView button : topButtons) {
+            button.setOnClickListener(this);
+        }
+
     }
 
     @Override
@@ -60,4 +81,23 @@ public class StatsFragment extends Fragment {
         binding = null;
     }
 
+    @Override
+    public void onClick(View v) {
+        int pL = v.getPaddingLeft();
+        int pT = v.getPaddingTop();
+        int pR = v.getPaddingRight();
+        int pB = v.getPaddingBottom();
+
+        for (TextView button : topButtons) {
+            if (v.getId() == button.getId()) {
+                button.setBackground(getResources().getDrawable(R.drawable.rounded_corner));
+                button.setTextColor(Color.WHITE);
+            }
+            else {
+                button.setBackground(getResources().getDrawable(R.drawable.rounded_corner_gray));
+                button.setTextColor(Color.BLACK);
+            }
+            button.setPadding(pL, pT, pR, pB);
+        }
+    }
 }
